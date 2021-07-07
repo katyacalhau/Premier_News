@@ -12,7 +12,7 @@ class RepositoryNews {
     private var service = EndPointApi::class
     private var serviceNews = RetrofitInit(url).create(service)
 
-    suspend fun getAllNewsService() : NewsResponse = serviceNews.getAllNews()
+    suspend fun getAllNewsService(): NewsResponse = serviceNews.getAllNews()
 
 
 }

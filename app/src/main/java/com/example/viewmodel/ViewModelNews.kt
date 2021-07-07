@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newCoroutineContext
 
-class ViewModelNews : ViewModel(){
+class ViewModelNews : ViewModel() {
 
     val listMutableNews = MutableLiveData<List<Article>>()
     private val repository = RepositoryNews()
