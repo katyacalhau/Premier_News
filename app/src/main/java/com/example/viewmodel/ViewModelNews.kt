@@ -14,12 +14,17 @@ import kotlinx.coroutines.newCoroutineContext
 class ViewModelNews : ViewModel() {
 
     val listMutableNews = MutableLiveData<List<Article>>()
+    val messageError = MutableLiveData<String>()
     private val repository = RepositoryNews()
 
     fun getAllNews() = CoroutineScope(Dispatchers.IO).launch {
-        repository.getAllNewsService().let { newsResponse ->
-            listMutableNews.postValue(newsResponse.articles)
+        try {
+            repository.getAllNewsService().let { newsResponse ->
+                listMutableNews.postValue(newsResponse.articles)
+            }
+        } catch (error : Throwable){
+            messageError.postValue("Problema de conexão $error")
         }
-    }
 
+    }
 }

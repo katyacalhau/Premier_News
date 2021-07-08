@@ -2,6 +2,7 @@ package com.example.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,6 +34,11 @@ class MainActivity : AppCompatActivity() {
         viewModelNews.listMutableNews.observe(this, Observer {
             it?.let { itChar -> article.addAll(itChar) }
             adapterNews.notifyDataSetChanged()
+        })
+        viewModelNews.messageError.observe(this, Observer {
+            if (it != null){
+                Toast.makeText(this, it,  Toast.LENGTH_LONG).show()
+            }
         })
 
 
