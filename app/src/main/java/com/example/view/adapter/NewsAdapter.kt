@@ -1,13 +1,16 @@
 package com.example.view.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.model.Article
+import com.example.view.ActivityDetail
 import com.example.view.R
 import com.squareup.picasso.Picasso
 
@@ -30,13 +33,19 @@ class NewsAdapter(
         Picasso.get().load(news.urlToImage).error(R.drawable.ic_launcher_foreground)
             .into(holder.notice_image)
 
+        holder.notice_card.setOnClickListener {
+            val intent: Intent = Intent(it.context, ActivityDetail::class.java)
+            intent.putExtra("url", news.url)
+            it.context.startActivity(intent)
+        }
+
     }
 
     inner class NewsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val notice_image by lazy { view.findViewById<ImageView>(R.id.image_notice_card) }
         val notice_name by lazy { view.findViewById<TextView>(R.id.text_card) }
-        val notice_card by lazy { view.findViewById<TextView>(R.id.cardview) }
-        val notice_text by lazy { view.findViewById<TextView>(R.id.text_description_notice) }
+        val notice_card by lazy { view.findViewById<CardView>(R.id.card_recycler) }
+        //val notice_text by lazy { view.findViewById<TextView>(R.id.text_description_notice) }
 
     }
 

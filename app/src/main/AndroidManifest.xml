@@ -12,9 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PremierNews">
-        <activity android:name=".ActivityDetail" />
+        <activity android:name=".ActivityDetail"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".SplashScreen"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
             <intent-filter>
