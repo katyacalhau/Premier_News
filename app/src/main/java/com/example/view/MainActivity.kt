@@ -14,35 +14,52 @@ import com.example.viewmodel.ViewModelNews
 
 class MainActivity : AppCompatActivity() {
     private var article: MutableList<Article> = mutableListOf<Article>()
-
+    private lateinit var adapterNews: NewsAdapter
+    private lateinit var refreshLayout: SwipeRefreshLayout
+    private lateinit var recycler: RecyclerView
+    private lateinit var viewModelNews: ViewModelNews
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val recycler = findViewById<RecyclerView>(R.id.recycler_home)
+        viewModelNews = ViewModelProviders.of(this).get(ViewModelNews::class.java)
+        initViews()
+        callGetAllNews()
+        initRecyclerView()
 
-        val viewModelNews = ViewModelProviders.of(this).get(ViewModelNews::class.java)
+        refreshLayout.setOnRefreshListener {
+            callGetAllNews()
+            initRecyclerView()
+        }
 
-        val adapterNews = NewsAdapter(article, this)
-        recycler.adapter = adapterNews
+    }
 
-        val layoutManager = GridLayoutManager(this, 1)
-        recycler.layoutManager = layoutManager
-
+    private fun callGetAllNews() {
         viewModelNews.getAllNews()
         viewModelNews.listMutableNews.observe(this, Observer {
             it?.let { itChar -> article.addAll(itChar) }
             adapterNews.notifyDataSetChanged()
+            refreshLayout.isRefreshing = false
         })
+
         viewModelNews.messageError.observe(this, Observer {
-            if (it != null){
-                Toast.makeText(this, it,  Toast.LENGTH_LONG).show()
+            if (it != null) {
+                Toast.makeText(this, it, Toast.LENGTH_LONG).show()
             }
         })
-
-
     }
 
-}
+    private fun initRecyclerView() {
+        adapterNews = NewsAdapter(article, this)
+        recycler.adapter = adapterNews
 
+        val layoutManager = GridLayoutManager(this, 1)
+        recycler.layoutManager = layoutManager
+    }
+
+    private fun initViews() {
+        recycler = findViewById(R.id.recycler_home)
+        refreshLayout = findViewById(R.id.refresh)
+    }
+}

@@ -22,7 +22,7 @@ class ViewModelNews : ViewModel() {
             repository.getAllNewsService().let { newsResponse ->
                 listMutableNews.postValue(newsResponse.articles)
             }
-        } catch (error : Throwable){
+        } catch (error: Throwable) {
             messageError.postValue("Problema de conexão $error")
         }
 

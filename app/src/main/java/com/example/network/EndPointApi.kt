@@ -8,6 +8,7 @@ interface EndPointApi {
 
     @GET("top-headlines")
     suspend fun getAllNews(
-        @Query("country") country: String
+        @Query("country") country: String,
+        @Query("apiKey") apiKey: String
     ): NewsResponse
 }
